@@ -1,0 +1,8 @@
+Destination   Flight Route from P   Total Cost
+W             P W                   $200
+R             P W Y R               $1300
+X             P W Y R X             $1500
+S             P W S                 $450
+T             P W S T               $750
+Y             P W Y                 $700
+Z             P W Y Z               $1150

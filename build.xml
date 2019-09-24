@@ -1,0 +1,79 @@
+<project name="310Project1" default="compile" basedir=".">
+	<description>
+		A build file for PJ1
+	</description>
+
+	<property name="source.dir" location="src" />
+	<property name="build.dir" location="bin" />
+	<property name="doc.dir" location="doc" />
+	<property name="dist.dir" location="dist" />
+
+	<target name="init" description="setup project directories">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${doc.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<path id="classpath.test">
+    		<pathelement location="lib/junit-4.13-beta-3.jar"/>
+    		<pathelement location="lib/hamcrest-core-1.3.jar"/>
+  	</path>
+
+	<target name="compile" depends="init" description="compile java sources">
+		<javac srcdir="${source.dir}" destdir="${build.dir}" includeantruntime="false">
+		<classpath refid="classpath.test"/>
+	</javac>
+	</target>
+
+	<target name="doc" depends="init" description="generate documentation">
+		<javadoc sourcepath="${source.dir}" destdir="${doc.dir}" >
+			<classpath refid="classpath.test"/>
+		</javadoc>
+	</target>
+
+	<target name="dist" depends="compile" description="package, output to JAR">
+
+		<jar jarfile="${dist.dir}/SearchMap.jar" basedir="${build.dir}/projectPack1" >
+			<manifest>
+			
+				<attribute name="Main-Class" value="SearchMap" />
+		    </manifest>
+		</jar>
+	</target>
+
+	<target name="clean" description="tidy up the workspace">
+		<delete dir="${build.dir}" />
+		<delete dir="${doc.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete>
+			<fileset defaultexcludes="no" dir="${source.dir}" includes="**/*~" />
+		</delete>
+	</target>
+
+	<target name="jar">
+		<mkdir dir="build/jar" />
+		<jar destfile="build/jar/SearchMap.jar" basedir="build" >
+			<manifest>
+				<attribute name="Main-Class" value="SearchMap" />
+			</manifest>
+		</jar>
+	</target>
+
+
+
+	<target name="test" depends="compile">
+    		<junit printsummary="on" haltonfailure="yes" fork="true" showOutput="true">
+
+        		<classpath>
+				<path refid="classpath.test"/>
+    				<pathelement location="${build.dir}"/>
+        		</classpath>
+        		<formatter type="brief" usefile="false" />
+        		<batchtest>
+            			<fileset dir="${source.dir}" includes="**/*Test.java" />
+        		</batchtest>
+    		</junit>
+  	</target>
+
+
+</project>
